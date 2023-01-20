@@ -1,0 +1,37 @@
+{
+        "Parameters": {
+            "ImageId": {
+                "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+                "Default": "/EC2/AMI_ID"
+            }
+        },
+        "Resources": {
+            "JenkinsInstance": {
+                "Type": "AWS::EC2::Instance",
+                "Properties": {
+                    "AvailabilityZone": "us-east-1a",
+                    "ImageId": {
+                        "Ref": "ImageId"
+                    },
+                    "InstanceType": "t2.micro"
+                }
+            },
+            "AllocEip": {
+                "Type": "AWS::EC2::EIPAssociation",
+                "Properties": {
+                    "AllocationId": "eipalloc-0ef82b69034f337e1",
+                    "InstanceId": {
+                        "Ref": "JenkinsInstance"
+                    }
+                }
+            }
+        },
+        "Outputs": {
+            "DemoInstanceId": {
+                "Description": "Instance Id",
+                "Value": {
+                    "Ref": "JenkinsInstance"
+                }
+            }
+        }
+    }

@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  backup-ec2
+
+  Sample SAM Template for backup-ec2
+
+
+Globals:
+  Function:
+    Timeout: 3
+    Tracing: Active
+    Environment:
+      Variables:
+        s3_bucket: !Sub ${AWS::StackName}-${AWS::AccountId}-${AWS::Region}
+  Api:
+    TracingEnabled: True
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${AWS::StackName}-${AWS::AccountId}-${AWS::Region}
+  DetectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backup_ec2/
+      Handler: aws_ami_backup_restore.lambda_handler
+      Runtime: python3.9
+      Policies:
+        - S3FullAccessPolicy:
+            BucketName: !Sub ${AWS::StackName}-${AWS::AccountId}-${AWS::Region}
+        - SSMParameterReadPolicy:
+            ParameterName: EC2/AMI_ID
+      Architectures:
+        - x86_64
+      Events:
+        S3Event:
+          Type: S3
+          Properties:
+            Bucket: !Ref S3Bucket
+            Events: s3:ObjectCreated:*
+
+            
+

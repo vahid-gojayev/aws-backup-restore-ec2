@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "backup-instance"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1w1re0pfxttaw"
+s3_prefix = "backup-instance"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
+parameter_overrides = "ImageId=\"/EC2/AMI_ID\""
