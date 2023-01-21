@@ -6,6 +6,7 @@ AWS ec2 backup and recovery automation solution
 
 I shared how I wrote a lambda boto3 python script for a solution that automates the backup and restore of an ec2 instance.
 
+I used 2 classes for this solution: the first class for preparing the image, the second for deploying the image.
 >
 
 class PrepareAmi:
