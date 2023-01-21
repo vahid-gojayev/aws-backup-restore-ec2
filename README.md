@@ -1,3 +1,3 @@
 # aws-backup-restore-ec2
 AWS ec2 backup and recovery automation solution
-![architecture](https://user-images.githubusercontent.com/123200995/213848834-27cfba3f-cd77-46d9-90dd-ecc248b7342d.PNG)
+![architecture](https://user-images.githubusercontent.com/123200995/213848962-ea7d597f-945a-453e-95ac-d502591f3cd0.PNG)
