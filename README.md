@@ -177,63 +177,63 @@ I used 2 classes and one function for this solution: the first class for prepari
                 
 > 
 
-  def lambda_handler(event, context):
+    def lambda_handler(event, context):
 
 
-    s3client = boto3.client('s3')
-    bucket_name = event['Records'][0]['s3']['bucket']['name']
-    bucket_key = event['Records'][0]['s3']['object']['key']
-    if "status.json" in bucket_key:
-        print("This is BucketKey {}".format(bucket_key))
-    obj = s3client.get_object(Bucket=bucket_name,Key=bucket_key)
-    checkout = obj['Body'].read().decode('utf8')
-    status = json.loads(checkout)
-    
-    print(status)
+         s3client = boto3.client('s3')
+         bucket_name = event['Records'][0]['s3']['bucket']['name']
+         bucket_key = event['Records'][0]['s3']['object']['key']
+         if "status.json" in bucket_key:
+             print("This is BucketKey {}".format(bucket_key))
+         obj = s3client.get_object(Bucket=bucket_name,Key=bucket_key)
+         checkout = obj['Body'].read().decode('utf8')
+         status = json.loads(checkout)
 
-
-
-    if status["status"] == "uninstall":
-
-
-       Reference_Class_AmiVars = CreateAmi(stack_instance_name, ssm_parameter, stack_name, region, aminame, timeout)
-       Reference_Class_AmiVars.create_ami_vars()
-        
-
-
-    if status["status"] == "install":
-
-
-        s3 = boto3.client('s3')
-
-
-        with open(cloud_formation_template, "rb") as f:
-                s3.upload_fileobj(f, s3_bucket_cloudformation, cloud_formation_template)
-                
-
-        os.chdir('/tmp')
-        
-
-        with open(cloud_formation_template, 'wb') as f:
-                s3.download_fileobj(s3_bucket_cloudformation, cloud_formation_template, f)
+         print(status)
 
 
 
-        with open(cloud_formation_template, 'r', encoding='utf-8') as content_file:
-                content = json.load(content_file)
+         if status["status"] == "uninstall":
 
 
-        content = json.dumps(content)
-        cloud_formation_client = boto3.client('cloudformation')
+            Reference_Class_AmiVars = CreateAmi(stack_instance_name, ssm_parameter, stack_name, region, aminame, timeout)
+            Reference_Class_AmiVars.create_ami_vars()
 
 
-        print(logger.info("Creating {}".format(stack_name)))
-        response = cloud_formation_client.create_stack(
-        StackName=stack_name,
-        TemplateBody=content,
-        Parameters=[{
-                'ParameterKey': ssm_parameter_key,
-                'ParameterValue': ssm_parameter
-        }]
-        )
-        return response
+
+         if status["status"] == "install":
+
+
+             s3 = boto3.client('s3')
+
+
+             with open(cloud_formation_template, "rb") as f:
+                     s3.upload_fileobj(f, s3_bucket_cloudformation, cloud_formation_template)
+
+
+             os.chdir('/tmp')
+
+
+             with open(cloud_formation_template, 'wb') as f:
+                     s3.download_fileobj(s3_bucket_cloudformation, cloud_formation_template, f)
+
+
+
+             with open(cloud_formation_template, 'r', encoding='utf-8') as content_file:
+                     content = json.load(content_file)
+
+
+             content = json.dumps(content)
+             cloud_formation_client = boto3.client('cloudformation')
+
+
+             print(logger.info("Creating {}".format(stack_name)))
+             response = cloud_formation_client.create_stack(
+             StackName=stack_name,
+             TemplateBody=content,
+             Parameters=[{
+                     'ParameterKey': ssm_parameter_key,
+                     'ParameterValue': ssm_parameter
+             }]
+             )
+             return response
