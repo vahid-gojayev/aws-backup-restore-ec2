@@ -28,6 +28,24 @@ Steps:
 6) sam build 
 7) sam deploy --guided
 8) after deploying sam you have to give permission to lambda function ec2,cloudformation,s3,ssm
+9) upload status.json to lambda s3 bucket you can use 2 status "install" and "uninstall" look code below
+>       
+        if status["status"] == "uninstall":
+
+
+            Reference_Class_AmiVars = CreateAmi(stack_instance_name, ssm_parameter, stack_name, region, aminame, timeout)
+            Reference_Class_AmiVars.create_ami_vars()
+
+
+
+         if status["status"] == "install":
+
+
+             s3 = boto3.client('s3')
+
+
+             with open(cloud_formation_template, "rb") as f:
+                     s3.upload_fileobj(f, s3_bucket_cloudformation, cloud_formation_template)
 
 
 I used 2 classes and one function for this solution: the first class for preparing the image, the second for creating the image. the function just receives events from s3 and the deploy process also has a function
