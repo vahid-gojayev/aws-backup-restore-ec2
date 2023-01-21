@@ -88,7 +88,7 @@ I used 2 classes and one function for this solution: the first class for prepari
                             break
 
 >
- class CreateAmi(PrepareAmi):
+    class CreateAmi(PrepareAmi):
 
 
         def __init__(self, stack_instance_name, ssm_parameter, stack_name, region, aminame, timeout):
@@ -177,7 +177,7 @@ I used 2 classes and one function for this solution: the first class for prepari
                 
 > 
 
- def lambda_handler(event, context):
+  def lambda_handler(event, context):
 
 
     s3client = boto3.client('s3')
