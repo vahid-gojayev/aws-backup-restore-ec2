@@ -8,7 +8,20 @@ I shared how I wrote a lambda boto3 python script for a solution that automates 
 
 Steps:
 
-1) Clone The repo  
+1) Clone The repo 
+2) Open the code and update your variable (aws-backup-restore-ec2/backup-ec2/backup_ec2/aws_ami_backup_restore.py)
+>
+stack_instance_name="JenkinsInstance"  #This is the value obtained from clf-temp.json for the tag filter, you can update it
+ssm_parameter="/EC2/AMI_ID" #This is the value obtained from the ssm parameter type string
+ssm_parameter_key="ImageId" #This is  the parameter key, don't change it
+stack_name="jenkins-stack"  #This is Just Stack name you can change it
+region="us-east-1" 
+aminame="jenkins-ami" #This value is a ami name referenced from ssm parameter version For ex: jenkins-ami-20
+timeout=25 #This value specifies the available pending state ami if the image state is available and then unregisters the old image.
+cloud_formation_template="clf-temp.json" #This  is cloudformation template for installing and uninstalling stack. You can modify thi file but template should json format
+s3_bucket_cloudformation="ami-recovery-cloudformation-bucket" #This is just bucket name you can create your own bucket and change value
+s3_bucket_event="os.environ.get('s3_bucket')"
+
 
 
 
