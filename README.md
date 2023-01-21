@@ -8,8 +8,10 @@ I shared how I wrote a lambda boto3 python script for a solution that automates 
 
 Steps:
 
-1) Clone The repo 
-2) Open the code and update your variable (aws-backup-restore-ec2/backup-ec2/backup_ec2/aws_ami_backup_restore.py)
+1) Create Your Image 
+2) Create your ssm from, store use format string as /EC2/AMI ID and update value your image id
+3) Clone The repo 
+4) Open the code and update your variable (aws-backup-restore-ec2/backup-ec2/backup_ec2/aws_ami_backup_restore.py)
 >
      stack_instance_name="JenkinsInstance"  #This is the value obtained from clf-temp.json for the tag filter, you can update it
      ssm_parameter="/EC2/AMI_ID" #This is the value obtained from the ssm parameter type string
@@ -22,10 +24,12 @@ Steps:
      s3_bucket_cloudformation="ami-recovery-cloudformation-bucket" #This is just bucket name you can create your own bucket and change value
      s3_bucket_event="os.environ.get('s3_bucket')"
 
+5) cd aws-backup-restore-ec2/backup-ec2/backup_ec2
+6) sam build 
+7) sam deploy --guided
 
 
-
-I used 2 classes and one function for this solution: the first class for preparing the image, the second for creating the image. function just get events from s3 also deploy process also have function
+I used 2 classes and one function for this solution: the first class for preparing the image, the second for creating the image. the function just receives events from s3 and the deploy process also has a function
 
 >
 
