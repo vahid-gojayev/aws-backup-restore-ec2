@@ -27,6 +27,7 @@ Steps:
 5) cd aws-backup-restore-ec2/backup-ec2/backup_ec2
 6) sam build 
 7) sam deploy --guided
+8) after deploying sam you have to give permission to lambda function ec2,cloudformation,s3,ssm
 
 
 I used 2 classes and one function for this solution: the first class for preparing the image, the second for creating the image. the function just receives events from s3 and the deploy process also has a function
